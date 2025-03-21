@@ -30,7 +30,7 @@ class BollingerBandStrategy:
                 self.std = np.std(self.past_px)
 
             # compute z-score
-            z = (px - self.mean) / self.std
+            z = (px - self.mean) / self.std if self.std != 0 else 0
 
             # compute new pos
             if z > self.z_thr:

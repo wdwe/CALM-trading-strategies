@@ -22,7 +22,7 @@ def unpack_tick_msg(bin_msg):
 
 def pack_action_msg(symbol, pos):
     timestamp = int(time.time())
-    bin_reply = struct.pack("@32sqq", symbol.encode() + b"\x00", pos, timestamp)
+    bin_reply = struct.pack("@32sdq", symbol.encode() + b"\x00", pos, timestamp)
     return bin_reply
 
 
@@ -49,6 +49,8 @@ class StrategyEngine:
                     bin_msg = self.q.get(timeout=1)
                     tick = unpack_tick_msg(bin_msg)
                     logger.debug(tick)
+                    if not tick.symbol:  # empty symbol means uninitialised data
+                        continue
                     pos = self.strategy.process(tick)
                     bin_reply = pack_action_msg(tick.symbol, pos)
                     self.redis_client.publish(channel, bin_reply)
