@@ -1,0 +1,16 @@
+market_data_symbol: 7203-STK-JPY.TSEJ
+order_symbol: 7203-STK-JPY.SMART
+redis_cfg:
+  host: localhost
+  port: 6380
+mq:
+  channels:
+    tick: tick_channel
+    action: action_channel
+  sentinel_token: sentinel
+strategy:
+  class: BollingerBandStrategy
+  params:
+    z_thr: 1
+    lookback: 50
+    quantity: 500

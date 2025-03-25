@@ -6,7 +6,7 @@ import threading
 import struct
 import time
 from collections import namedtuple
-from bollinger_band_strategy import BollingerBandStrategy
+import strategy
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,9 @@ class StrategyEngine:
         self.sub_thread = None
         self.running = False
         self.sentinel = self.cfg["mq"]["sentinel_token"].encode() + b"\x00"
-        self.strategy = BollingerBandStrategy(**self.cfg["strategy_params"])
+        strat_cls = self.cfg["strategy"]["class"]
+        cls = getattr(strategy, strat_cls)
+        self.strategy = cls(**self.cfg["strategy"]["params"])
 
     def run(self):
         try:

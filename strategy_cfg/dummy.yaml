@@ -1,4 +1,5 @@
-symbol: 7203-STK-JPY.TSEJ
+market_data_symbol: 7203-STK-JPY.TSEJ
+order_symbol: 7203-STK-JPY.SMART
 redis_cfg:
   host: localhost
   port: 6380
@@ -7,7 +8,7 @@ mq:
     tick: tick_channel
     action: action_channel
   sentinel_token: sentinel
-strategy_params:
-  z_thr: 1
-  lookback: 50
-  quantity: 500
+strategy:
+  class: DummyStrategy
+  params:
+    quantity: 500
